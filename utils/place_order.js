@@ -15,11 +15,18 @@ const client = require("twilio")(accountSid, authToken);
 
 // all_india_permit - yearly 200
 
-const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = null) => {
+const calculate_price = (
+  start_date,
+  end_date,
+  seating,
+  tax_type,
+  tax_mode = null
+) => {
   const charges = JSON.parse(process.env.CHARGES);
-  
+
   const key = `CAP${seating}_CHARGE`;
-  let days = 1, tax = 0;
+  let days = 1,
+    tax = 0;
 
   if (start_date !== null && end_date !== null) {
     days = number_of_days(start_date, end_date);
@@ -46,7 +53,7 @@ const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = nul
   } else if (tax_type === "all_india_permit") {
     service_charge = 200;
   } else {
-    service_charge = charges.SERVICE_CHARGE * days
+    service_charge = charges.SERVICE_CHARGE * days;
   }
 
   return {
@@ -93,19 +100,17 @@ const client_whatsapp_message = (contact_number, params) => {
   if (params.tax_type === "road_tax") {
     msg = `Your order is confirmed. The details are mentioned below.\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Chasis Number*: ${params.chasis_number}\n*Tax Mode*: ${params.tax_mode}\n*Contact Number*: ${contact_number}`;
   } else {
-    msg = `Your order is confirmed. The details are mentioned below.\n*State*: ${
-      params.state
-    }\n*City*: ${params.city}\n*Vehicle Number*: ${
-      params.vehicle_number
-    }\n*Seating Capacity*: ${
-      params.seating
-    }\n*Start Date*: ${params.start_date.getDate()}-${
-      params.start_date.getMonth() + 1
-    }-${params.start_date.getFullYear()}\n*End Date*: ${params.end_date.getDate()}-${
-      params.end_date.getMonth() + 1
-    }-${params.end_date.getFullYear()}\n*Amount*: ${
-      params.amount.total_amount
-    }\n*Contact Number*: ${contact_number}`;
+    msg = `Your order is confirmed. The details are mentioned below.\n*State*: ${params.state}\n*City*: ${params.city}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Contact Number*: ${contact_number}`;
+
+    if (params.start_date !== null && params.start_date !== undefined) {
+      msg += `\n*Start Date*: ${params.start_date.getDate()}-${
+        params.start_date.getMonth() + 1
+      }-${params.start_date.getFullYear()}\n*End Date*: ${params.end_date.getDate()}-${
+        params.end_date.getMonth() + 1
+      }-${params.end_date.getFullYear()}\n*Amount*: ${
+        params.amount.total_amount
+      }`;
+    }
   }
 
   return msg;
@@ -116,19 +121,17 @@ const admin_whatsapp_message = (contact_number, params) => {
   if (params.tax_type === "road_tax") {
     msg = `New Order Received. The details are mentioned below.\n*Type*: ${params.tax_type}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Chasis Number*: ${params.chasis_number}\n*Tax Mode*: ${params.tax_mode}\n*Contact Number*: ${contact_number}`;
   } else {
-    msg = `New Order Received. The details are mentioned below.\n*State*: ${
-      params.state
-    }\n*City*: ${params.city}\n*Vehicle Number*: ${
-      params.vehicle_number
-    }\n*Seating Capacity*: ${
-      params.seating
-    }\n*Start Date*: ${params.start_date.getDate()}-${
-      params.start_date.getMonth() + 1
-    }-${params.start_date.getFullYear()}\n*End Date*: ${params.end_date.getDate()}-${
-      params.end_date.getMonth() + 1
-    }-${params.end_date.getFullYear()}\n*Amount*: ${
-      params.amount.total_amount
-    }\n*Contact Number*: ${contact_number}`;
+    msg = `New Order Received. The details are mentioned below.\n*State*: ${params.state}\n*City*: ${params.city}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Contact Number*: ${contact_number}`;
+
+    if (params.start_date !== null && params.start_date !== undefined) {
+      msg += `\n*Start Date*: ${params.start_date.getDate()}-${
+        params.start_date.getMonth() + 1
+      }-${params.start_date.getFullYear()}\n*End Date*: ${params.end_date.getDate()}-${
+        params.end_date.getMonth() + 1
+      }-${params.end_date.getFullYear()}\n*Amount*: ${
+        params.amount.total_amount
+      }`;
+    }
   }
 
   return msg;
