@@ -17,12 +17,16 @@ const client = require("twilio")(accountSid, authToken);
 
 const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = null) => {
   const charges = JSON.parse(process.env.CHARGES);
-  const key = `CAP${seating}_CHARGE`;
-
-  const days = number_of_days(start_date, end_date);
   
-  // calculating service charge
-  let service_charge = charges.SERVICE_CHARGE * days;
+  const key = `CAP${seating}_CHARGE`;
+  let days = 1, tax = 0;
+
+  if (start_date !== null && end_date !== null) {
+    days = number_of_days(start_date, end_date);
+  }
+  tax = charges[`${key}`] * days;
+
+  let service_charge;
   if (tax_type === "road_tax") {
     service_charge = 200; // in case of yearly
     if (tax_mode === "Monthly" || tax_mode === "Quaterly") {
@@ -41,9 +45,10 @@ const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = nul
     }
   } else if (tax_type === "all_india_permit") {
     service_charge = 200;
+  } else {
+    service_charge = charges.SERVICE_CHARGE * days
   }
 
-  const tax = charges[`${key}`] * days;
   return {
     service_charge,
     tax,
