@@ -51,7 +51,7 @@ const place_order = async (req, res) => {
     }
 
     if (tax_type === 'all_india_permit')
-      tax_mode= "all_india_permit"
+      tax_mode = "all_india_permit"
   
     params = {
       contact_number,
