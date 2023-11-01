@@ -27,7 +27,7 @@ const place_order = async (req, res) => {
 
   let params;
 
-  if (tax_type === 'road_tax') {
+  if (tax_type === 'road_tax' || tax_type === 'all_india_permit') {
     if (!seating || seating === "") {
       return res.status(400).json({
         is_success: false,
@@ -61,7 +61,8 @@ const place_order = async (req, res) => {
       tax_mode,
       tax_type,
       vehicle_number,
-      chasis_number
+      chasis_number,
+      amount: calculate_price(start_date, end_date, seating, tax_type, tax_mode),
     };
   } else {
     start_date = new Date(start_date);

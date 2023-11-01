@@ -20,7 +20,6 @@ const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = nul
   const key = `CAP${seating}_CHARGE`;
 
   const days = number_of_days(start_date, end_date);
-  console.log("Days", days)
   
   // calculating service charge
   let service_charge = charges.SERVICE_CHARGE * days;
@@ -61,7 +60,7 @@ const send_whatsapp_message = (contact_number, data) => {
     })
     .then((message) =>
       console.log(
-        `Message sent successfully to client. Message SId ${message.sid}`
+        `Message sent successfully to client. Contact Number ${contact_number} - Message SId ${message.sid}`
       )
     )
     .catch((error) =>
@@ -76,7 +75,7 @@ const send_whatsapp_message = (contact_number, data) => {
     })
     .then((message) =>
       console.log(
-        `Message sent successfully to admin. Message SId ${message.sid}`
+        `Message sent successfully to admin. Contact Number ${contact_number} - Message SId ${message.sid}`
       )
     )
     .catch((error) =>
