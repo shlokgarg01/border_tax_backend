@@ -3,6 +3,7 @@ const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
 
+// service charge logic
 // road_tax
 // m & q - 100
 // y - 200
@@ -14,7 +15,7 @@ const client = require("twilio")(accountSid, authToken);
 
 // all_india_permit - yearly 200
 
-const calculate_price = (start_date, end_date, seating, tax_type, tax_mode) => {
+const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = null) => {
   const charges = JSON.parse(process.env.CHARGES);
   const key = `CAP${seating}_CHARGE`;
 
@@ -28,7 +29,7 @@ const calculate_price = (start_date, end_date, seating, tax_type, tax_mode) => {
       service_charge = 100;
     }
   } else if (tax_type === "border_tax") {
-    if (tax_type === "Daily") {
+    if (tax_mode === "Daily") {
       service_charge = 30;
       if (days >= 5) {
         service_charge = 50;
