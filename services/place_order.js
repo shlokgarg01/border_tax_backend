@@ -33,11 +33,6 @@ const place_order = async (req, res) => {
         is_success: false,
         message: "Seating Capacity is required",
       })
-    } else if (!tax_mode || tax_mode === "") {
-      return res.status(400).json({
-        is_success: false,
-        message: "Tax Mode is required",
-      });
     } else if (contact_number.toString().length != 10 || !contact_number) {
       return res.status(400).json({
         is_success: false,
