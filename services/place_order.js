@@ -144,7 +144,6 @@ const place_order = async (req, res) => {
 };
 
 const charges = (req, res) => {
-  console.log("=======================")
   let { start_date, end_date, seating, tax_type, tax_mode } = req.query;
 
   start_date = new Date(start_date);

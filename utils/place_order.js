@@ -20,6 +20,7 @@ const calculate_price = (start_date, end_date, seating, tax_type, tax_mode = nul
   const key = `CAP${seating}_CHARGE`;
 
   const days = number_of_days(start_date, end_date);
+  console.log("Days", days)
   
   // calculating service charge
   let service_charge = charges.SERVICE_CHARGE * days;
