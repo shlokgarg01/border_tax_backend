@@ -28,10 +28,13 @@ const calculate_price = (
   let days = 1,
     tax = 0;
 
+    console.log("KEY DAYS TAX- - ", key, days, tax)
   if (start_date !== null && end_date !== null) {
+    console.log("INSIDE IF 2")
     days = number_of_days(start_date, end_date);
   }
   tax = charges[`${key}`] * days;
+  console.log('TAX - ', tax)
 
   let service_charge;
   if (tax_type === "road_tax") {
@@ -55,6 +58,7 @@ const calculate_price = (
   } else {
     service_charge = charges.SERVICE_CHARGE * days;
   }
+  console.log("SERVICE CHARGE - ", service_charge)
 
   return {
     service_charge,
