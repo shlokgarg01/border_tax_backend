@@ -29,7 +29,7 @@ const calculate_price = (
     tax = 0;
 
     console.log("KEY DAYS TAX- - ", key, days, tax)
-  if (start_date !== null && end_date !== null) {
+  if (start_date !== "" && end_date !== "") {
     console.log("INSIDE IF 2")
     days = number_of_days(start_date, end_date);
   }
