@@ -59,7 +59,7 @@ const place_order = async (req, res) => {
       tax_type,
       vehicle_number,
       chasis_number,
-      amount: calculate_price(null, null, seating, tax_type, tax_mode),
+      amount: calculate_price("", "", seating, tax_type, tax_mode),
     };
   } else {
     start_date = new Date(start_date);
