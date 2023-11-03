@@ -27,32 +27,31 @@ const place_order = async (req, res) => {
 
   let params;
 
-  if (tax_type === 'road_tax' || tax_type === 'all_india_permit') {
+  if (tax_type === "road_tax" || tax_type === "all_india_permit") {
     if (!seating || seating === "") {
       return res.status(400).json({
         is_success: false,
         message: "Seating Capacity is required",
-      })
+      });
     } else if (contact_number.toString().length != 10 || !contact_number) {
       return res.status(400).json({
         is_success: false,
         message: "Invalid Contact Number",
       });
-    } else if (chasis_number === '' || !chasis_number) {
+    } else if (chasis_number === "" || !chasis_number) {
       return res.status(400).json({
         is_success: false,
         message: "Chasis Number is required",
       });
-    } else if (vehicle_number === '' || !vehicle_number) {
+    } else if (vehicle_number === "" || !vehicle_number) {
       return res.status(400).json({
         is_success: false,
         message: "Vehicle Number is required",
       });
     }
 
-    if (tax_type === 'all_india_permit')
-      tax_mode = "all_india_permit"
-  
+    if (tax_type === "all_india_permit") tax_mode = "all_india_permit";
+
     params = {
       contact_number,
       seating,
@@ -84,7 +83,7 @@ const place_order = async (req, res) => {
       return res.status(400).json({
         is_success: false,
         message: "Seating Capacity is required",
-      })
+      });
     } else if (!tax_mode || tax_mode === "") {
       return res.status(400).json({
         is_success: false,
@@ -127,7 +126,13 @@ const place_order = async (req, res) => {
       start_date,
       end_date,
       vehicle_number,
-      amount: calculate_price(start_date, end_date, seating, tax_type, tax_mode),
+      amount: calculate_price(
+        start_date,
+        end_date,
+        seating,
+        tax_type,
+        tax_mode
+      ),
     };
   }
 
@@ -145,41 +150,49 @@ const place_order = async (req, res) => {
 const charges = (req, res) => {
   let { start_date, end_date, seating, tax_type, tax_mode } = req.query;
 
-  start_date = new Date(start_date);
-  start_date.setHours(0, 0, 0, 0);
-  end_date = new Date(end_date);
-  end_date.setHours(0, 0, 0, 0);
-  current_date = new Date();
-  current_date.setHours(0, 0, 0, 0);
-
-  if (!start_date) {
-    return res.status(400).json({
-      is_success: false,
-      message: "Start Date is required",
-    });
-  } else if (start_date < current_date) {
-    return res.status(400).json({
-      is_success: false,
-      message: "Start Date cannot be less than today",
-    });
-  } else if (!end_date) {
-    return res.status(400).json({
-      is_success: false,
-      message: "End Date is required",
-    });
-  } else if (end_date < start_date) {
-    return res.status(400).json({
-      is_success: false,
-      message: "Start Date cannot be more than End Date",
-    });
-  } else if (!seating || seating === "") {
-    return res.status(400).json({
-      is_success: false,
-      message: "Seating Capacity is required",
-    });
+  if (start_date !== null && end_date !== null) {
+    start_date = new Date(start_date);
+    start_date.setHours(0, 0, 0, 0);
+    end_date = new Date(end_date);
+    end_date.setHours(0, 0, 0, 0);
+    current_date = new Date();
+    current_date.setHours(0, 0, 0, 0);
   }
 
-  let charges = calculate_price(start_date, end_date, seating, tax_type, tax_mode);
+  // if (!start_date) {
+  //   return res.status(400).json({
+  //     is_success: false,
+  //     message: "Start Date is required",
+  //   });
+  // } else if (start_date < current_date) {
+  //   return res.status(400).json({
+  //     is_success: false,
+  //     message: "Start Date cannot be less than today",
+  //   });
+  // } else if (!end_date) {
+  //   return res.status(400).json({
+  //     is_success: false,
+  //     message: "End Date is required",
+  //   });
+  // } else if (end_date < start_date) {
+  //   return res.status(400).json({
+  //     is_success: false,
+  //     message: "Start Date cannot be more than End Date",
+  //   });
+  // } else if (!seating || seating === "") {
+  //   return res.status(400).json({
+  //     is_success: false,
+  //     message: "Seating Capacity is required",
+  //   });
+  // }
+
+  let charges = calculate_price(
+    start_date,
+    end_date,
+    seating,
+    tax_type,
+    tax_mode
+  );
 
   res.status(200).json({
     is_success: true,
