@@ -52,6 +52,7 @@ const place_order = async (req, res) => {
 
     if (tax_type === "all_india_permit") tax_mode = "all_india_permit";
 
+    console.log("before order create params")
     params = {
       contact_number,
       seating,
