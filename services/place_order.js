@@ -52,7 +52,6 @@ const place_order = async (req, res) => {
 
     if (tax_type === "all_india_permit") tax_mode = "all_india_permit";
 
-    console.log("before order create params")
     params = {
       contact_number,
       seating,
@@ -150,10 +149,8 @@ const place_order = async (req, res) => {
 
 const charges = (req, res) => {
   let { start_date, end_date, seating, tax_type, tax_mode } = req.query;
-  console.log('params------------ ', start_date, end_date, typeof(start_date), typeof(end_date), seating, tax_mode, tax_type)
 
   if (start_date !== "" && end_date !== "") {
-    console.log("INSIDE IF CONDITION")
     start_date = new Date(start_date);
     start_date.setHours(0, 0, 0, 0);
     end_date = new Date(end_date);
@@ -161,7 +158,6 @@ const charges = (req, res) => {
     current_date = new Date();
     current_date.setHours(0, 0, 0, 0);
   }
-  console.log('params 2 ------------ ', start_date, end_date, seating, tax_mode, tax_type)
 
   // if (!start_date) {
   //   return res.status(400).json({
@@ -198,7 +194,6 @@ const charges = (req, res) => {
     tax_mode
   );
 
-  console.log('response of charges - ', charges)
   res.status(200).json({
     is_success: true,
     message: "Charges calculated",
