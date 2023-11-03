@@ -151,7 +151,7 @@ const charges = (req, res) => {
   let { start_date, end_date, seating, tax_type, tax_mode } = req.query;
   console.log('params------------ ', start_date, end_date, typeof(start_date), typeof(end_date), seating, tax_mode, tax_type)
 
-  if (start_date !== null && end_date !== null) {
+  if (start_date !== "" && end_date !== "") {
     console.log("INSIDE IF CONDITION")
     start_date = new Date(start_date);
     start_date.setHours(0, 0, 0, 0);
