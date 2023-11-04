@@ -59,7 +59,7 @@ const place_order = async (req, res) => {
       tax_type,
       vehicle_number,
       chasis_number,
-      amount: calculate_price("", "", seating, tax_type, tax_mode),
+      amount: calculate_price("", "", seating, tax_type, "", tax_mode),
     };
   } else {
     start_date = new Date(start_date);
@@ -131,6 +131,7 @@ const place_order = async (req, res) => {
         end_date,
         seating,
         tax_type,
+        state,
         tax_mode
       ),
     };
@@ -148,7 +149,7 @@ const place_order = async (req, res) => {
 };
 
 const charges = (req, res) => {
-  let { start_date, end_date, seating, tax_type, tax_mode } = req.query;
+  let { start_date, end_date, seating, tax_type, tax_mode, state } = req.query;
 
   if (start_date !== "" && end_date !== "") {
     start_date = new Date(start_date);
@@ -191,6 +192,7 @@ const charges = (req, res) => {
     end_date,
     seating,
     tax_type,
+    state,
     tax_mode
   );
 

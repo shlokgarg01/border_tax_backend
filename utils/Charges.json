@@ -1,0 +1,32 @@
+{
+  "Himachal Pradesh": {
+    "CAP5_CHARGE": 220,
+    "CAP7_CHARGE": 220,
+    "CAP8_CHARGE": 320
+  },
+  "Haryana": {
+    "CAP5_CHARGE": 100,
+    "CAP7_CHARGE": 100,
+    "CAP8_CHARGE": 250
+  },
+  "Punjab": {
+    "CAP5_CHARGE": 240,
+    "CAP7_CHARGE": 240,
+    "CAP8_CHARGE": 470
+  },
+  "Rajasthan": {
+    "CAP5_CHARGE": 170,
+    "CAP7_CHARGE": 224,
+    "CAP8_CHARGE": 224
+  },
+  "Uttar Pradesh": {
+    "CAP5_CHARGE": 120,
+    "CAP7_CHARGE": 180,
+    "CAP8_CHARGE": 210
+  },
+  "Uttarakhand": {
+    "CAP5_CHARGE": 220,
+    "CAP7_CHARGE": 300,
+    "CAP8_CHARGE": 340
+  }
+}

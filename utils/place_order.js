@@ -1,8 +1,9 @@
-const { get_current_time } = require("./DateTime")
+const { get_current_time } = require("./DateTime");
 require("dotenv").config();
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
+const Charges = require("./Charges.json");
 
 // service charge logic
 // road_tax
@@ -21,14 +22,17 @@ const calculate_price = (
   end_date,
   seating,
   tax_type,
+  state = "",
   tax_mode = null
 ) => {
-  const charges = JSON.parse(process.env.CHARGES);
-
-  const key = `CAP${seating}_CHARGE`;
+  let charges = JSON.parse(process.env.CHARGES);
+  let key = `CAP${seating}_CHARGE`;
   let days = 1,
     tax = 0;
 
+  if (state !== "") {
+    charges = Charges[`${state}`];
+  }
   if (start_date !== "" && end_date !== "") {
     days = number_of_days(start_date, end_date);
   }
@@ -99,9 +103,21 @@ const send_whatsapp_message = (contact_number, data) => {
 const client_whatsapp_message = (contact_number, params) => {
   let msg;
   if (params.tax_type === "road_tax") {
-    msg = `Your order is confirmed. The details are mentioned below.\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Chasis Number*: ${params.chasis_number}\n*Tax Mode*: ${params.tax_mode}\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
+    msg = `Your order is confirmed. The details are mentioned below.\n*Vehicle Number*: ${
+      params.vehicle_number
+    }\n*Seating Capacity*: ${params.seating}\n*Chasis Number*: ${
+      params.chasis_number
+    }\n*Tax Mode*: ${
+      params.tax_mode
+    }\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
   } else {
-    msg = `Your order is confirmed. The details are mentioned below.\n*State*: ${params.state}\n*City*: ${params.city}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
+    msg = `Your order is confirmed. The details are mentioned below.\n*State*: ${
+      params.state
+    }\n*City*: ${params.city}\n*Vehicle Number*: ${
+      params.vehicle_number
+    }\n*Seating Capacity*: ${
+      params.seating
+    }\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
 
     if (params.start_date !== null && params.start_date !== undefined) {
       msg += `\n*Start Date*: ${params.start_date.getDate()}-${
@@ -120,9 +136,21 @@ const client_whatsapp_message = (contact_number, params) => {
 const admin_whatsapp_message = (contact_number, params) => {
   let msg;
   if (params.tax_type === "road_tax") {
-    msg = `New Order Received. The details are mentioned below.\n*Type*: ${params.tax_type}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Chasis Number*: ${params.chasis_number}\n*Tax Mode*: ${params.tax_mode}\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
+    msg = `New Order Received. The details are mentioned below.\n*Type*: ${
+      params.tax_type
+    }\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${
+      params.seating
+    }\n*Chasis Number*: ${params.chasis_number}\n*Tax Mode*: ${
+      params.tax_mode
+    }\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
   } else {
-    msg = `New Order Received. The details are mentioned below.\n*State*: ${params.state}\n*City*: ${params.city}\n*Vehicle Number*: ${params.vehicle_number}\n*Seating Capacity*: ${params.seating}\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
+    msg = `New Order Received. The details are mentioned below.\n*State*: ${
+      params.state
+    }\n*City*: ${params.city}\n*Vehicle Number*: ${
+      params.vehicle_number
+    }\n*Seating Capacity*: ${
+      params.seating
+    }\n*Contact Number*: ${contact_number}\n*Time*: ${get_current_time()}`;
 
     if (params.start_date !== null && params.start_date !== undefined) {
       msg += `\n*Start Date*: ${params.start_date.getDate()}-${
